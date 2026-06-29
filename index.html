@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube TV — Complete Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=YouTube+Sans:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yt-red: #FF0000;
+      --yt-dark: #0F0F0F;
+      --yt-mid: #212121;
+      --yt-gray: #606060;
+      --yt-light: #AAAAAA;
+      --yt-bg: #F9F9F9;
+      --white: #FFFFFF;
+      --accent-soft: #FFF0F0;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--white);
+      color: var(--yt-dark);
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { height: 28px; }
+    .nav-logo span { font-size: 18px; font-weight: 700; color: var(--yt-dark); letter-spacing: -0.3px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--yt-gray); font-size: 14px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--yt-red); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0F0F0F 0%, #1a1a1a 50%, #2d0000 100%);
+      color: var(--white);
+      padding: 100px 40px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(255,0,0,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--yt-red);
+      color: white; font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -1.5px;
+    }
+    .hero h1 span { color: var(--yt-red); }
+    .hero p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(255,255,255,0.75);
+      max-width: 580px; margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--yt-red); color: white;
+      padding: 14px 32px; border-radius: 30px;
+      text-decoration: none; font-weight: 700; font-size: 16px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(255,0,0,0.4);
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,0,0,0.5); }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 60px;
+      margin-top: 60px; padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 700; color: var(--yt-red); display: block; }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 40px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--yt-red);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700; line-height: 1.2; letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 17px; color: var(--yt-gray);
+      max-width: 620px; margin-bottom: 48px;
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: var(--yt-red); border-radius: 2px;
+      margin-bottom: 48px;
+    }
+
+    /* ── WHAT IS YOUTUBE TV ── */
+    .what-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .what-image {
+      background: linear-gradient(135deg, var(--yt-red), #8B0000);
+      border-radius: var(--radius);
+      aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .what-image svg { width: 80px; opacity: 0.9; }
+    .screen-mock {
+      position: absolute; inset: 20px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 8px;
+      display: flex; flex-direction: column;
+    }
+    .mock-bar { height: 24px; background: rgba(0,0,0,0.6); border-radius: 8px 8px 0 0; display: flex; align-items: center; padding: 0 10px; gap: 6px; }
+    .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .mock-content { flex: 1; display: flex; align-items: center; justify-content: center; }
+    .play-btn { width: 50px; height: 50px; background: var(--yt-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .what-points { display: flex; flex-direction: column; gap: 20px; }
+    .what-point { display: flex; gap: 16px; align-items: flex-start; }
+    .point-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--accent-soft);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 20px;
+    }
+    .point-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .point-text p { font-size: 14px; color: var(--yt-gray); }
+
+    /* ── HOW TO CONNECT ── */
+    .connect-bg { background: var(--yt-bg); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      border: 1px solid #ebebeb;
+      position: relative;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .step-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .step-num {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--yt-red); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .step-num::after { content: ''; flex: 1; height: 1px; background: #f0e0e0; }
+    .step-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .step-card p { font-size: 14px; color: var(--yt-gray); line-height: 1.6; }
+    .step-card .step-icon { font-size: 28px; margin-bottom: 14px; }
+
+    /* Devices */
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px; margin-top: 40px;
+    }
+    .device-chip {
+      background: var(--white);
+      border: 1.5px solid #ebebeb;
+      border-radius: var(--radius-sm);
+      padding: 16px; text-align: center;
+      font-size: 14px; font-weight: 600; color: var(--yt-mid);
+      transition: border-color .2s, color .2s;
+    }
+    .device-chip:hover { border-color: var(--yt-red); color: var(--yt-red); }
+    .device-chip span { font-size: 26px; display: block; margin-bottom: 8px; }
+
+    /* ── BENEFITS ── */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .benefit-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 1px solid #ebebeb;
+      transition: all .2s;
+      background: var(--white);
+    }
+    .benefit-card:hover { border-color: var(--yt-red); box-shadow: 0 6px 24px rgba(255,0,0,0.08); }
+    .benefit-card.featured {
+      background: linear-gradient(135deg, var(--yt-red), #c00000);
+      color: white; border-color: transparent;
+    }
+    .benefit-icon { font-size: 32px; margin-bottom: 18px; }
+    .benefit-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .benefit-card p { font-size: 14px; color: var(--yt-gray); line-height: 1.6; }
+    .benefit-card.featured p { color: rgba(255,255,255,0.8); }
+
+    /* ── FEATURES TABLE ── */
+    .features-bg { background: var(--yt-dark); color: white; }
+    .features-bg .section-title { color: white; }
+    .features-bg .section-subtitle { color: rgba(255,255,255,0.6); }
+    .features-bg .section-eyebrow { color: var(--yt-red); }
+    .features-table {
+      width: 100%; border-collapse: collapse; margin-top: 16px;
+    }
+    .features-table th {
+      text-align: left; padding: 16px 20px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .features-table td {
+      padding: 18px 20px;
+      font-size: 15px; color: rgba(255,255,255,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .features-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .tag {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+      background: rgba(255,0,0,0.2); color: var(--yt-red);
+    }
+    .check { color: #4CAF50; font-size: 18px; }
+
+    /* ── PLANS ── */
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 8px;
+    }
+    .plan-card {
+      border-radius: var(--radius);
+      border: 1.5px solid #ebebeb;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all .2s;
+      position: relative;
+    }
+    .plan-card.popular {
+      border-color: var(--yt-red);
+      box-shadow: 0 8px 32px rgba(255,0,0,0.12);
+    }
+    .popular-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--yt-red); color: white;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px;
+    }
+    .plan-name { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--yt-gray); margin-bottom: 12px; }
+    .plan-price { font-size: 42px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; }
+    .plan-price sup { font-size: 20px; vertical-align: top; margin-top: 10px; }
+    .plan-price span { font-size: 16px; font-weight: 400; color: var(--yt-gray); }
+    .plan-desc { font-size: 13px; color: var(--yt-gray); margin-bottom: 28px; }
+    .plan-features { list-style: none; text-align: left; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .plan-features li { font-size: 14px; color: var(--yt-mid); display: flex; gap: 10px; align-items: flex-start; }
+    .plan-features li::before { content: '✓'; color: var(--yt-red); font-weight: 700; flex-shrink: 0; }
+    .plan-btn {
+      display: block; padding: 13px;
+      border-radius: 8px; text-decoration: none;
+      font-size: 14px; font-weight: 700;
+      background: var(--yt-bg); color: var(--yt-dark);
+      transition: all .2s;
+    }
+    .plan-btn.primary { background: var(--yt-red); color: white; }
+    .plan-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── TIPS ── */
+    .tips-bg { background: var(--yt-bg); }
+    .tips-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tip-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 20px 22px;
+      display: flex; gap: 14px; align-items: flex-start;
+      border: 1px solid #ebebeb;
+    }
+    .tip-num {
+      width: 32px; height: 32px; background: var(--yt-red); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .tip-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .tip-item p { font-size: 13px; color: var(--yt-gray); }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 2px; }
+    .faq-item {
+      border: 1px solid #ebebeb;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 16px; font-weight: 600; text-align: left; color: var(--yt-dark);
+      transition: background .2s;
+    }
+    .faq-q:hover { background: var(--accent-soft); }
+    .faq-q .arrow { font-size: 18px; transition: transform .3s; color: var(--yt-red); }
+    .faq-q.open .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .3s;
+      font-size: 15px; color: var(--yt-gray); line-height: 1.7;
+      padding: 0 24px;
+    }
+    .faq-a.open { max-height: 200px; padding: 0 24px 20px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--yt-dark); color: rgba(255,255,255,0.6);
+      padding: 48px 40px 32px;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+    .footer-brand svg { height: 24px; }
+    .footer-brand p { font-size: 13px; margin-top: 10px; max-width: 280px; }
+    .footer-links h5 { color: white; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .footer-links a:hover { color: var(--yt-red); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; font-size: 13px; display: flex; justify-content: space-between; }
+
+    @media (max-width: 900px) {
+      .what-grid, .benefits-grid, .plans-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .tips-list { grid-template-columns: 1fr; }
+      .hero-stats { gap: 30px; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 60px 20px; }
+      nav { padding: 0 20px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .hero { padding: 72px 20px 60px; }
+      .hero-stats { flex-wrap: wrap; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <!-- YouTube Logo SVG -->
+    <span>Detailed TV Guide</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#what">What is it?</a></li>
+    <li><a href="#connect">How to Connect</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Complete Guide 2024</div>
+  <h1>Everything You Need to Know<br>About <span>YouTube TV</span></h1>
+  <p>Stream live TV, record unlimited shows, and never miss a moment — your complete guide to getting started with YouTube TV.</p>
+  <a href="#connect" class="hero-cta">
+    <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    Get Started Now
+  </a>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">100+</span>
+      <div class="stat-label">Live Channels</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <div class="stat-label">DVR Storage</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <div class="stat-label">Streams at Once</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">6</span>
+      <div class="stat-label">Accounts / Plan</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS YOUTUBE TV -->
+<section id="what">
+  <div class="section-inner">
+    <div class="what-grid">
+      <div>
+        <div class="section-eyebrow">Overview</div>
+        <h2 class="section-title">What is YouTube TV?</h2>
+        <div class="divider"></div>
+        <p style="color:var(--yt-gray); margin-bottom:32px; font-size:16px;">
+          YouTube TV is a live TV streaming service from Google that replaces your traditional cable subscription. It delivers live broadcast and cable channels directly over the internet — no antenna, no satellite dish, no cable box required.
+        </p>
+        <div class="what-points">
+          <div class="what-point">
+            <div class="point-icon">📺</div>
+            <div class="point-text">
+              <h4>Live Television</h4>
+              <p>Watch sports, news, and entertainment live, just like traditional cable TV.</p>
+            </div>
+          </div>
+          <div class="what-point">
+            <div class="point-icon">☁️</div>
+            <div class="point-text">
+              <h4>Cloud-Based DVR</h4>
+              <p>Record unlimited shows with no storage limits, and replay them for up to 9 months.</p>
+            </div>
+          </div>
+          <div class="what-point">
+            <div class="point-icon">📱</div>
+            <div class="point-text">
+              <h4>Watch Anywhere</h4>
+              <p>Stream on your phone, tablet, computer, smart TV, or gaming console.</p>
+            </div>
+          </div>
+          <div class="what-point">
+            <div class="point-icon">👨‍👩‍👧</div>
+            <div class="point-text">
+              <h4>Family Sharing</h4>
+              <p>Add up to 5 family members, each with their own personal library and recommendations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="what-image">
+        <div class="screen-mock">
+          <div class="mock-bar">
+            <div class="mock-dot" style="background:#FF5F57"></div>
+            <div class="mock-dot" style="background:#FEBC2E"></div>
+            <div class="mock-dot" style="background:#28C840"></div>
+          </div>
+          <div class="mock-content">
+            <div class="play-btn">
+              <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO CONNECT -->
+<section id="connect" class="connect-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">Setup Guide</div>
+    <h2 class="section-title">How to Connect YouTube TV</h2>
+    <p class="section-subtitle">Getting started takes less than 5 minutes. Follow these simple steps and you'll be watching live TV in no time.</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">🔍</div>
+        <div class="step-num">Step 01</div>
+        <h3>Check Availability</h3>
+        <p>Visit tv.youtube.com and enter your ZIP code to confirm YouTube TV is available in your area. Coverage is available across most of the United States.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📧</div>
+        <div class="step-num">Step 02</div>
+        <h3>Sign In with Google</h3>
+        <p>Use your existing Google account (Gmail) to sign in, or create a free Google account at accounts.google.com. No new username or password needed.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">💳</div>
+        <div class="step-num">Step 03</div>
+        <h3>Choose Your Plan</h3>
+        <p>Select a subscription plan. A free trial is often available for new members. Enter your billing information to activate your subscription.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📲</div>
+        <div class="step-num">Step 04</div>
+        <h3>Download the App</h3>
+        <p>Download the YouTube TV app on your preferred device from the App Store, Google Play, or your smart TV's app marketplace.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🔑</div>
+        <div class="step-num">Step 05</div>
+        <h3>Sign In to the App</h3>
+        <p>Open the app, sign in with the same Google account you used to subscribe, and your channel lineup will load automatically.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🎉</div>
+        <div class="step-num">Step 06</div>
+        <h3>Start Watching!</h3>
+        <p>Browse live channels, set up your DVR recordings, and customize your home screen. You're ready to cut the cord!</p>
+      </div>
+    </div>
+
+    <!-- Compatible Devices -->
+    <div style="margin-top: 60px;">
+      <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">Compatible Devices</h3>
+      <p style="color: var(--yt-gray); font-size: 15px; margin-bottom: 0;">YouTube TV works on virtually every screen you own.</p>
+      <div class="devices-grid">
+        <div class="device-chip"><span>📱</span>iOS (iPhone / iPad)</div>
+        <div class="device-chip"><span>🤖</span>Android Devices</div>
+        <div class="device-chip"><span>💻</span>Web Browser (PC/Mac)</div>
+        <div class="device-chip"><span>📺</span>Android TV / Google TV</div>
+        <div class="device-chip"><span>🍎</span>Apple TV</div>
+        <div class="device-chip"><span>🔥</span>Amazon Fire TV</div>
+        <div class="device-chip"><span>📡</span>Roku Devices</div>
+        <div class="device-chip"><span>🎮</span>Xbox One / Series X|S</div>
+        <div class="device-chip"><span>🎮</span>PlayStation 4 / 5</div>
+        <div class="device-chip"><span>📺</span>Samsung Smart TV</div>
+        <div class="device-chip"><span>📺</span>LG Smart TV</div>
+        <div class="device-chip"><span>🔮</span>Chromecast with Google TV</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="section-inner">
+    <div class="section-eyebrow">Why Choose It</div>
+    <h2 class="section-title">Key Benefits of YouTube TV</h2>
+    <p class="section-subtitle">Here's why millions of people have switched from cable to YouTube TV.</p>
+
+    <div class="benefits-grid">
+      <div class="benefit-card featured">
+        <div class="benefit-icon">♾️</div>
+        <h3>Unlimited DVR Storage</h3>
+        <p>Unlike cable, YouTube TV gives you unlimited cloud DVR space. Record as many shows, movies, and sports events as you want — all stored for 9 months.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💸</div>
+        <h3>No Long-Term Contracts</h3>
+        <p>Subscribe month-to-month and cancel any time, no penalties or hidden fees. You're always in control of your subscription.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🏈</div>
+        <h3>Live Sports Coverage</h3>
+        <p>Watch NFL, NBA, MLB, NHL, MLS, college sports, and more. YouTube TV includes major sports networks like ESPN, FS1, NBC Sports, and CBS Sports.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">👥</div>
+        <h3>Up to 6 Accounts</h3>
+        <p>Each household member gets their own profile with personalized recommendations, individual DVR libraries, and separate watch history.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🖥️</div>
+        <h3>3 Simultaneous Streams</h3>
+        <p>Watch different channels on up to 3 devices at the same time within your household, with an option to add unlimited streams as an add-on.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📡</div>
+        <h3>Local Channels Included</h3>
+        <p>YouTube TV includes local ABC, CBS, FOX, and NBC affiliates so you never miss local news, weather, or network primetime programming.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🎬</div>
+        <h3>Premium Add-ons Available</h3>
+        <p>Enhance your subscription with HBO Max, Showtime, Starz, NBA League Pass, and more — all billed in one place.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🌐</div>
+        <h3>Watch on the Go</h3>
+        <p>Stream live TV from your home network or while traveling. Your DVR content is accessible anywhere with an internet connection.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔔</div>
+        <h3>Smart Notifications</h3>
+        <p>Set up alerts for your favorite shows and get notified before they start, so you never forget to tune in or record.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES TABLE -->
+<section class="features-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">What You Get</div>
+    <h2 class="section-title">Full Feature Breakdown</h2>
+    <p class="section-subtitle">A detailed look at everything included in a YouTube TV subscription.</p>
+
+    <table class="features-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Detail</th>
+          <th>Included</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Live Channels</td>
+          <td>100+ channels including sports, news, entertainment</td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td>Cloud DVR</td>
+          <td>Unlimited storage, recordings saved for 9 months</td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td>Simultaneous Streams</td>
+          <td>3 streams at once (unlimited add-on available)</td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td>Family Members</td>
+          <td>Up to 6 accounts per household</td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td>Local Channels</td>
+          <td>ABC, CBS, FOX, NBC in most markets</td>
+          <td><span class="check">✔</span></td>
+        </tr>
+        <tr>
+          <td>Offline Downloads</td>
+          <td>Download select titles for offline viewing</td>
+          <td><span class="tag">Add-on</span></td>
+        </tr>
+        <tr>
+          <td>4K Streaming</td>
+          <td>4K Plus plan available for select content</td>
+          <td><span class="tag">Add-on</span></td>
+        </tr>
+        <tr>
+          <td>Ad-Free Experience</td>
+          <td>Skip ads on most on-demand content</td>
+          <td><span class="tag">Add-on</span></td>
+        </tr>
+        <tr>
+          <td>Premium Channels</td>
+          <td>HBO Max, Showtime, Starz, NBA League Pass</td>
+          <td><span class="tag">Add-on</span></td>
+        </tr>
+        <tr>
+          <td>Contract Required</td>
+          <td>Month-to-month, cancel any time</td>
+          <td><span style="color:#FF5252">✗ None</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Choose Your Plan</h2>
+    <p class="section-subtitle">Flexible plans for every household. No hidden fees, no annual contracts.</p>
+
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price"><sup>$</sup>72<span>/mo</span></div>
+        <div class="plan-desc">Perfect for individuals and couples</div>
+        <ul class="plan-features">
+          <li>100+ live channels</li>
+          <li>Unlimited Cloud DVR</li>
+          <li>3 simultaneous streams</li>
+          <li>6 accounts included</li>
+          <li>Cancel any time</li>
+        </ul>
+        <a href="#" class="plan-btn">Start Free Trial</a>
+      </div>
+
+      <div class="plan-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">4K Plus</div>
+        <div class="plan-price"><sup>$</sup>83<span>/mo</span></div>
+        <div class="plan-desc">Best for families and sports fans</div>
+        <ul class="plan-features">
+          <li>Everything in Basic</li>
+          <li>4K streaming on select content</li>
+          <li>Unlimited streams at home</li>
+          <li>Offline downloads</li>
+          <li>Enhanced DVR controls</li>
+        </ul>
+        <a href="#" class="plan-btn primary">Start Free Trial</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Spanish Plan</div>
+        <div class="plan-price"><sup>$</sup>34<span>/mo</span></div>
+        <div class="plan-desc">Español-language channels & more</div>
+        <ul class="plan-features">
+          <li>Spanish-language channels</li>
+          <li>35+ channels total</li>
+          <li>Unlimited Cloud DVR</li>
+          <li>3 simultaneous streams</li>
+          <li>No long-term contract</li>
+        </ul>
+        <a href="#" class="plan-btn">Start Free Trial</a>
+      </div>
+    </div>
+
+    <p style="text-align:center; color:var(--yt-light); font-size:13px; margin-top:24px;">* Prices subject to change. Regional taxes may apply. Check youtube.com/tv for latest pricing.</p>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-bg">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pro Tips</div>
+    <h2 class="section-title">Get the Most Out of YouTube TV</h2>
+    <p class="section-subtitle">Insider tips to supercharge your YouTube TV experience from day one.</p>
+
+    <div class="tips-list">
+      <div class="tip-item">
+        <div class="tip-num">1</div>
+        <div>
+          <h4>Set Up Your DVR Library First</h4>
+          <p>As soon as you sign in, add all your favorite shows and teams to your DVR library. YouTube TV will automatically record every new episode and game.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">2</div>
+        <div>
+          <h4>Use the Live Guide for Sports</h4>
+          <p>The Live tab shows everything airing right now. Use the filter for Sports to quickly find what games are on without scrolling through all channels.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">3</div>
+        <div>
+          <h4>Enable Parental Controls</h4>
+          <p>Each family member's profile can have content ratings restrictions. Set up a PIN-protected content lock in Settings → Family sharing to keep kids safe.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">4</div>
+        <div>
+          <h4>Cast to Your TV with Chromecast</h4>
+          <p>Chromecast is the easiest and cheapest way to get YouTube TV on your big screen. Simply tap the Cast icon in the app and select your TV.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">5</div>
+        <div>
+          <h4>Fast-Forward Through Ads on DVR</h4>
+          <p>When watching DVR recordings, you can fast-forward through commercials using the 15-second skip button for a smoother viewing experience.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">6</div>
+        <div>
+          <h4>Lower Data Usage on Mobile</h4>
+          <p>In the app Settings, switch to "Data saver" or "Auto" quality when on a mobile network to reduce data consumption without sacrificing too much quality.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">7</div>
+        <div>
+          <h4>Check the "Top Picks For You" Row</h4>
+          <p>YouTube TV learns your preferences over time and suggests content you're likely to enjoy. Check this row on the home screen regularly.</p>
+        </div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">8</div>
+        <div>
+          <h4>Pause & Resume on Different Devices</h4>
+          <p>Started watching on your phone? Pause, then resume on your TV seamlessly. Your watch progress syncs across all your devices automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-eyebrow">FAQ</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-subtitle">Got questions? We've got answers.</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Do I need a cable subscription to use YouTube TV?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">No! YouTube TV is a cord-cutting solution. It works completely over the internet, so you only need a reliable broadband internet connection (at least 3 Mbps for standard quality, 13 Mbps for HD on multiple screens).</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Is there a free trial available?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">YouTube TV frequently offers free trials for new subscribers, typically ranging from 5 to 14 days. You can cancel before the trial ends and won't be charged. Check the official YouTube TV website for the current trial offer.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Can I watch YouTube TV outside my home?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">Yes, you can watch most content on the go. However, local channels are based on your home area network. Some regional sports networks may be restricted outside your home area due to broadcasting rights. You'll need to be on your home network periodically to keep your home area active.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          What internet speed do I need for YouTube TV?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">YouTube TV recommends at least 3 Mbps for one stream in standard definition, 7 Mbps for one HD stream, and 13 Mbps or more for multiple simultaneous HD streams. For 4K streaming with the 4K Plus plan, a 25 Mbps connection is recommended.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          How do I cancel my YouTube TV subscription?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">You can cancel anytime by going to tv.youtube.com on a web browser, clicking your profile icon, then Settings → Membership → Cancel Membership. Your access continues until the end of the current billing period. There are no cancellation fees.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          Does YouTube TV include Netflix or Disney+?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">No, YouTube TV does not include Netflix, Disney+, or similar streaming services. These are separate subscriptions. YouTube TV focuses on live TV channels and DVR. You can add HBO Max, Showtime, and Starz as paid add-ons through YouTube TV, but Netflix requires a separate subscription.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">
+          How many people can use YouTube TV at the same time?
+          <span class="arrow">▾</span>
+        </button>
+        <div class="faq-a">The base plan allows 3 simultaneous streams. With the 4K Plus add-on, you get unlimited streams at home and 3 streams away from home. Up to 6 family members can have their own accounts under one subscription, each with personal DVR and watch history.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <p>An educational guide to understanding and setting up YouTube TV. Created as a college project.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#what">What is YouTube TV?</a></li>
+          <li><a href="#connect">How to Connect</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#plans">Plans & Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Devices</h5>
+        <ul>
+          <li><a href="#">Smart TVs</a></li>
+          <li><a href="#">Mobile Devices</a></li>
+          <li><a href="#">Gaming Consoles</a></li>
+          <li><a href="#">Streaming Sticks</a></li>
+          <li><a href="#">Web Browser</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Detailed TV Guide</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleFAQ(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(b => b.classList.remove('open'));
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
