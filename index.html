@@ -334,6 +334,53 @@
       padding: 0 24px;
     }
     .faq-a.open { max-height: 200px; padding: 0 24px 20px; }
+	
+	  .callbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#ffffff;
+  text-align:center;
+  padding:14px 0px;
+  z-index:999999;
+  box-shadow:0 -3px 12px rgba(0,0,0,0.15);
+}
+
+.callbar a{
+  color:#0e6db9;
+  font-weight:700;
+  text-decoration:none;
+  font-size:28px;
+}
+
+.callbar span{
+  display:inline;
+}
+
+/* mobile two lines */
+@media(max-width:768px){
+  .callbar a{
+    font-size:20px;
+    line-height:1.4;
+  }
+  
+  .t1{
+	font-size: 15px; !important
+	}
+	
+	.callbar .t1{
+	  color:#000 !important;   /* Need Help text = black */
+	}
+	
+		.callbar .t2{
+	  color:#ff0000 !important; /* Number = blue */
+	}
+  
+  .callbar span{
+    display:block;
+  } 
+}
 
     /* ── FOOTER ── */
     footer {
@@ -852,6 +899,13 @@
     </div>
   </div>
 </section>
+
+<div class="callbar">
+  <a href="tel:+18556185446">
+    <span class="t1">Need Help? Talk to an Expert</span>
+    <span class="t2" style="color:#ff0000">+1 (855) 618-5446</span>
+  </a>
+</div>
 
 <!-- FOOTER -->
 <footer>
